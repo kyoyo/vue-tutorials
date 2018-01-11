@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<div id ="app">
+    <h1> Hello Vue.js</h1>
+    <h1 v-if="yes"> yes! </h1>
+    <h1 v-if="no"> no! </h1>
+    <h1 v-if="age <= 25"> {{age}} </h1>
+    <h1 v-else> {{name}} </h1>
+    <h1 v-if="name.indexOf('jack') > 0 "> {{name}} </h1>
+</div>
+
+<script src="js/vue.js"></script>
+<script>
+    var vm = new Vue(
+    {
+    el:'#app',
+    data:{
+      yes:true,
+      no:false,
+      age:28,
+      name:'keepfool'
+        }
+    }
+    );
+
+</script>
+</body>
+</html>
