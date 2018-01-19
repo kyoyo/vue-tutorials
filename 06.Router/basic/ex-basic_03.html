@@ -13,15 +13,15 @@
 			<div class="row">
 				<div class="col-xs-offset-2 col-xs-8">
 					<div class="page-header">
-						<h2>Router Basic - 05</h2>
+						<h2>Router Basic - 03</h2>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-2 col-xs-offset-2">
 					<div class="list-group">
-						<a class="list-group-item" v-link="{ path: '/home', activeClass: 'active'}">Home</a>
-						<a class="list-group-item" v-link="{ path: '/about', activeClass: 'active'}">About</a>
+						<a class="list-group-item" v-link="{ path: '/home'}">Home</a>
+						<a class="list-group-item" v-link="{ path: '/about'}">About</a>
 					</div>
 				</div>
 				<div class="col-xs-6">
@@ -41,15 +41,47 @@
 			</div>
 			<div>
 				<ul class="nav nav-tabs">
-					<li :class="currentPath == '/home/news' ? 'active': ''">
-						<a v-link="{ path: '/home/news'}">News</a>
+					<li>
+						<a v-link="{ name: 'news'}">News</a>
 					</li>
-					<li :class="currentPath == '/home/message' ? 'active': ''">
+					<li>
 						<a v-link="{ path: '/home/message'}">Messages</a>
 					</li>
 				</ul>
 				<router-view></router-view>
 			</div>
+		</template>
+
+		<template id="news">
+			<div>
+				<ul>
+					<li>
+						<a v-link="{name:'detail',params:{id:'01'}}">News 01</a>
+					</li>
+					<li>
+						<a v-link="{ path: '/home/news/detail/02'}">News 02</a>
+					</li>
+					<li>
+						<a v-link="{ path: '/home/news/detail/03'}">News 03</a>
+					</li>
+				</ul>
+				<div>
+					<router-view></router-view>
+				</div>
+			</div>
+		</template>
+		<template id="newsDetail">
+			<div>
+				News Detail - {{$route.params.id}} ......
+			</div>
+		</template>
+
+		<template id="message">
+			<ul>
+				<li>Message 01</li>
+				<li>Message 02</li>
+				<li>Message 03</li>
+			</ul>
 		</template>
 
 		<template id="about">
@@ -59,23 +91,6 @@
 			</div>
 		</template>
 
-		<template id="news">
-			<div>
-				<ul>
-					<li>News 01</li>
-					<li>News 02</li>
-					<li>News 03</li>
-				</ul>
-			</div>
-
-		</template>
-		<template id="message">
-			<ul>
-				<li>Message 01</li>
-				<li>Message 02</li>
-				<li>Message 03</li>
-			</ul>
-		</template>
 	</body>
 	<script src="js/vue.js"></script>
 	<script src="js/vue-router.js"></script>
@@ -84,21 +99,17 @@
 			template: '#home',
 			data: function() {
 				return {
-					msg: 'Hello, vue router!',
-					currentPath: ''
-				}
-			},
-			route: {
-				data: function(transition){
-					transition.next({
-						currentPath: transition.to.path
-					})
+					msg: 'Hello, vue router!'
 				}
 			}
 		})
 
 		var News = Vue.extend({
 			template: '#news'
+		})
+
+		var NewsDetail = Vue.extend({
+			template: '#newsDetail'
 		})
 
 		var Message = Vue.extend({
@@ -118,7 +129,14 @@
 				component: Home,
 				subRoutes: {
 					'/news': {
-						component: News
+						name: 'news',
+						component: News,
+						subRoutes:{
+							'detail/:id': {
+								name:'detail',
+								component:NewsDetail
+							}
+						}
 					},
 					'/message': {
 						component: Message
